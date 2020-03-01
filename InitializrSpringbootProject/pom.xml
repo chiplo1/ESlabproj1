@@ -46,6 +46,7 @@
 			</exclusions>
 		</dependency>
                 <dependency>
+<<<<<<< HEAD
                     <groupId>org.glassfish.jersey.containers</groupId>
                     <artifactId>jersey-container-servlet</artifactId>
                     <version>2.26</version>
@@ -68,6 +69,17 @@
 	  <type>jar</type>
 	 </dependency>
 	</dependencies>
+=======
+
+                    <groupId>org.toile-libre.libe</groupId>
+
+                    <artifactId>curl</artifactId>
+
+                    <version>LATEST</version>
+
+                </dependency>
+        </dependencies>
+>>>>>>> b6f6ede8091a11fca03adda628924cd0375cb6c6
 
 	<build>
 		<plugins>
