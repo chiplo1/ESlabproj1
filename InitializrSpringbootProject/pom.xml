@@ -45,7 +45,16 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-	</dependencies>
+                <dependency>
+
+                    <groupId>org.toile-libre.libe</groupId>
+
+                    <artifactId>curl</artifactId>
+
+                    <version>LATEST</version>
+
+                </dependency>
+        </dependencies>
 
 	<build>
 		<plugins>
