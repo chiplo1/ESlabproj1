@@ -5,6 +5,8 @@
  */
 package com.labproj.es;
 
+import com.labproj.exceptions.PlaneAlreadyExists;
+import com.labproj.exceptions.PlaneNotFound;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -19,38 +21,35 @@ public class PlaneRepositoryImpl implements PlaneRepository {
 
     public PlaneRepositoryImpl() {
         planeList = new ArrayList<Plane>();
-        planeList.add(new Plane(1, "Jane"));
-        planeList.add(new Plane(2, "Jack"));
-        planeList.add(new Plane(3, "George"));
     }
 
     public List<Plane> getAllPlanes() {
         return planeList;
     }
 
-    public Plane getPlane(int id) {
+    public Plane getPlane(String icao24) {
         for (Plane pl : planeList) {
-            if (pl.getId() == id) {
+            if (pl.getIcao24() == icao24) {
                 return pl;
             }
         }
         throw new PlaneNotFound();
     }
 
-    public void updatePlane(Plane plane, int id) {
+    public void updatePlane(Plane plane, String icao24) {
         for (Plane pl : planeList) {
-            if (pl.getId() == id) {
-                pl.setId(plane.getId());
-                pl.setFirstName(plane.getFirstName());
+            if (pl.getIcao24() == icao24) {
+                pl.setIcao24(plane.getIcao24());
+                pl.setCallsign(plane.getCallsign());
                 return;
             }
         }
         throw new PlaneNotFound();
     }
 
-    public void deletePlane(int id) {
+    public void deletePlane(String icao24) {
         for (Plane pl : planeList) {
-            if (pl.getId() == id) {
+            if (pl.getIcao24() == icao24) {
                 planeList.remove(pl);
                 return;
             }
@@ -60,7 +59,7 @@ public class PlaneRepositoryImpl implements PlaneRepository {
 
     public void addPlane(Plane plane) {
         for (Plane pl : planeList) {
-            if (pl.getId() == plane.getId()) {
+            if (pl.getIcao24() == plane.getIcao24()) {
                 throw new PlaneAlreadyExists();
             }
         }

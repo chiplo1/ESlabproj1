@@ -16,11 +16,11 @@ public interface PlaneRepository {
 
     public List<Plane> getAllPlanes();
 
-    public Plane getPlane(int id);
+    public Plane getPlane(String icao24);
 
-    public void updatePlane(Plane plane, int id);
+    public void updatePlane(Plane plane, String icao24);
 
-    public void deletePlane(int id);
+    public void deletePlane(String icao24);
 
     public void addPlane(Plane plane);
 }

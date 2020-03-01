@@ -29,8 +29,8 @@ public class PlaneResource {
     @GET
     @Path("/{id}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Plane getPlane(@PathParam("id") int id) {
-        return planeRepository.getPlane(id);
+    public Plane getPlane(@PathParam("id") String icao24) {
+        return planeRepository.getPlane(icao24);
     }
  
     @POST
@@ -38,14 +38,13 @@ public class PlaneResource {
     public Response addPlane(
       Plane plane, @Context UriInfo uriInfo) {
   
-        planeRepository.addPlane(new Plane(plane.getId(), 
-          plane.getFirstName(), plane.getLastName(), 
-          plane.getAge()));
+        planeRepository.addPlane(new Plane(plane.getIcao24(), 
+          plane.getCallsign()));
   
         return Response.status(Response.Status.CREATED.getStatusCode())
           .header(
             "Location", 
             String.format("%s/%s",uriInfo.getAbsolutePath().toString(), 
-            plane.getId())).build();
+            plane.getIcao24())).build();
     }
 }

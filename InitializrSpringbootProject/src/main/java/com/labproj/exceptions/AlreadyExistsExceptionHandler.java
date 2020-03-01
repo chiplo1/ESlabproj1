@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.labproj.es;
+package com.labproj.exceptions;
 
 /**
  *
@@ -14,8 +14,8 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class NotFoundExceptionHandler implements ExceptionMapper<PlaneNotFound> {
-    public Response toResponse(PlaneNotFound ex) {
-        return Response.status(Response.Status.NOT_FOUND).build();
+public class AlreadyExistsExceptionHandler implements ExceptionMapper<PlaneAlreadyExists> {
+    public Response toResponse(PlaneAlreadyExists ex) {
+        return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
     }
 }

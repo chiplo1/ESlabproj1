@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.labproj.es;
+package com.labproj.es.config;
 
 /**
  *
  * @author guilherme
  */
+import com.labproj.exceptions.AlreadyExistsExceptionHandler;
+import com.labproj.exceptions.NotFoundExceptionHandler;
+import com.labproj.es.PlaneResource;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 

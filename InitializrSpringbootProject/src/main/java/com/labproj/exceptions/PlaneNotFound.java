@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.labproj.es;
+package com.labproj.exceptions;
 
 /**
  *
  * @author guilherme
  */
-class PlaneNotFound extends RuntimeException {
+public class PlaneNotFound extends RuntimeException {
     
 }
