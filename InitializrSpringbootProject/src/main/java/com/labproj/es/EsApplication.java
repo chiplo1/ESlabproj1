@@ -6,8 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class EsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EsApplication.class, args);
+        //SpringApplication.run(SchedulingTasksApplication.class);
+    }
 
 }

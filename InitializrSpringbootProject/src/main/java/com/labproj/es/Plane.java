@@ -5,6 +5,8 @@
  */
 package com.labproj.es;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,13 +18,13 @@ public class Plane {
     private int id;
     private String firstName;
     private String lastName;
-    private int Age;
+    private int age;
 
-    public Plane(int id, String firstName, String lastName, int Age) {
+    public Plane(int id, String firstName, String lastName, int age) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.Age = Age;
+        this.age = age;
     }
     
     public Plane(int id, String firstName) {
@@ -43,11 +45,11 @@ public class Plane {
     }
 
     public int getAge() {
-        return Age;
+        return age;
     }
 
-    public void setAge(int Age) {
-        this.Age = Age;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public int getId() {
@@ -66,5 +68,14 @@ public class Plane {
         this.firstName = firstName;
     }
     
+    public List<Plane> getPlanes(){
+        List<Plane> planes = new ArrayList<>();
+        
+        planes.add(new Plane(1,"alberto","caeiro",19));
+        planes.add(new Plane(2,"fernando","pessoa",123));
+        planes.add(new Plane(3,"fernando","humano",1543));
+        
+        return planes;
+    }
     
 }
