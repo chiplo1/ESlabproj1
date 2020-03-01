@@ -5,18 +5,15 @@
  */
 package com.labproj.es;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- *
- * @author guilherme
- */
 @RestController
 public class HomeController {
-    
-    @RequestMapping("/")
-    public String home(){
-        return "Welcome to spring boot";
-    }
+
+	@RequestMapping("/")
+	public String index() {
+		return "Greetingssss from Spring Boot!";
+	}
+
 }

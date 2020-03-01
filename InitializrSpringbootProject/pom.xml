@@ -45,6 +45,28 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                    <artifactId>jersey-container-servlet</artifactId>
+                    <version>2.26</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-jackson</artifactId>
+                    <version>2.26</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.ext</groupId>
+                    <artifactId>jersey-spring4</artifactId>
+                    <version>2.26</version>
+                </dependency>
+	 <dependency>
+	  <groupId>org.apache.httpcomponents</groupId>
+	  <artifactId>httpclient</artifactId>
+	  <version>4.5.11</version>
+	  <scope>test</scope>
+	  <type>jar</type>
+	 </dependency>
 	</dependencies>
 
 	<build>
