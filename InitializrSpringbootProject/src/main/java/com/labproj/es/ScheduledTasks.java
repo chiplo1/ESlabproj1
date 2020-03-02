@@ -48,7 +48,23 @@ public class ScheduledTasks {
             
             String rawResponse = response.toString();
         System.out.println(rawResponse);
+        
+        
+        
+        PlaneController planecontroller = new PlaneController();
+        
+        
+        planecontroller.MyGETRequest(url);
+        
+        
+        //grupo 25
+        //PlaneRepositoryImpl allPlanesOld = planecontroller.getAllplanes();
+        PlaneRepositoryImpl allPlanesUpdated = planecontroller.processPlanes(rawResponse);
+        planecontroller.setAllplanes(allPlanesUpdated);
+        
+        
         //ModelAndView mv = new ModelAndView();
         //pl.allPlanes(mv);
+        }
     }
 }

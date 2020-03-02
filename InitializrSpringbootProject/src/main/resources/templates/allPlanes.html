@@ -36,7 +36,8 @@
                 <td> | </td>
                 <th>altitude</th>
             </tr>
-            <tr th:each="plane : ${planes}">
+   <!--         <tr th:each="plane : ${planes}">  -->
+                <tr th:each="plane : ${planes}">
                 <td th:text="${plane.icao24}">Icao24</td>
                 <td> | </td>
                 <td th:text="${plane.callsign}">Call_Sign</td>
