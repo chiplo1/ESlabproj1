@@ -66,4 +66,8 @@ public class PlaneRepositoryImpl implements PlaneRepository {
         planeList.add(plane);
     }
 
+    void deleteAllPlanes() {
+        planeList.removeAll(planeList);
+    }
+
 }

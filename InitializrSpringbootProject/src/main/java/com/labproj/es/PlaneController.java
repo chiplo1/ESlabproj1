@@ -5,12 +5,17 @@
  */
 package com.labproj.es;
 
+import com.labproj.exceptions.PlaneNotFound;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import net.minidev.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,11 +56,16 @@ public class PlaneController {
         
         
         System.out.println("CARREGUEI NO F5");
-        System.err.println(allplanes.getPlane("ab1644").getLatitude());
+        try{
+            System.out.println(allplanes.getPlane("ab1644").getLatitude());
+        }
+        catch(PlaneNotFound e){
+            System.out.println("Plane not found");
+        }
         mv.addObject("planes", allplanes.getAllPlanes());
         mv.setViewName("allPlanes");
         
-        MyGETRequest(url);
+        //MyGETRequest(url);
         
         return mv;
 
@@ -97,6 +107,9 @@ public class PlaneController {
     }
 
     public PlaneRepositoryImpl processPlanes(String rawResponse) {
+        
+        allplanes.deleteAllPlanes(); 
+        
         String[] planes = rawResponse.split("\\[\"");
         for (int i = 1; i < planes.length; i++) {
             //System.out.println(planes[i]);
@@ -141,5 +154,19 @@ public class PlaneController {
             allplanes.addPlane(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
         }
         return allplanes;
+    }
+    
+    private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    
+    @Scheduled(fixedDelay = 8000) //5 em 5 segundos
+    public void reportCurrentTime() throws IOException {
+
+    	log.info("The time is now {}", dateFormat.format(new Date()));
+        String url = "https://chiplo123:tareco123@opensky-network.org/api/states/all";
+        
+        MyGETRequest(url);
+        
     }
 }

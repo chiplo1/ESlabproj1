@@ -25,13 +25,13 @@ public class ScheduledTasks {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    @Scheduled(fixedDelay = 8000) //5 em 5 segundos
+    //@Scheduled(fixedDelay = 8000) //5 em 5 segundos
     public void reportCurrentTime() throws IOException {
        // PlaneController pl = new PlaneController();
         //pl.MyGETRequest("https://opensky-network.org/api/states/all");
     	log.info("The time is now {}", dateFormat.format(new Date()));
         String url = "https://chiplo123:tareco123@opensky-network.org/api/states/all";
-        URL urlForGetRequest = new URL(url);
+        /*URL urlForGetRequest = new URL(url);
         String readLine = null;
         HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
         conection.setRequestMethod("GET");
@@ -47,16 +47,16 @@ public class ScheduledTasks {
             in.close();
             
             String rawResponse = response.toString();
-        System.out.println(rawResponse);
         
+        */
         
         
         PlaneController planecontroller = new PlaneController();
         
         
-        planecontroller.MyGETRequest(url);
+        String rawResponse = planecontroller.MyGETRequest(url);
         
-        
+        System.out.println(rawResponse);
         //grupo 25
         //PlaneRepositoryImpl allPlanesOld = planecontroller.getAllplanes();
         PlaneRepositoryImpl allPlanesUpdated = planecontroller.processPlanes(rawResponse);
@@ -65,6 +65,6 @@ public class ScheduledTasks {
         
         //ModelAndView mv = new ModelAndView();
         //pl.allPlanes(mv);
-        }
+        
     }
 }
