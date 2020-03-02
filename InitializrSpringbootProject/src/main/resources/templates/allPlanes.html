@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Home page</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <p>
+            <span th:text="'Today is: ' + ${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}" th:remove="tag"></span>
+        </p>
+        
+        <table>
+            <tr>
+                <th>icao24</th>
+                <td> | </td>
+                <th>callsign</th>
+                <td> | </td>
+                <th>origin_country</th>
+                <td> | </td>
+                <th>time_position</th>
+                <td> | </td>
+                <th>last_contact</th>
+                <td> | </td>
+                <th>longitude</th>
+                <td> | </td>
+                <th>latitude</th>
+                <td> | </td>
+                <th>on_ground</th>
+                <td> | </td>
+                <th>velocity</th>
+                <td> | </td>
+                <th>true_track</th>
+                <td> | </td>
+                <th>vertical_rate</th>
+                <td> | </td>
+                <th>altitude</th>
+            </tr>
+            <tr th:each="plane : ${planes}">
+                <td th:text="${plane.icao24}">Icao24</td>
+                <td> | </td>
+                <td th:text="${plane.callsign}">Call_Sign</td>
+                <td> | </td>
+                <td th:text="${plane.origin_country}">origin_country</td>
+                <td> | </td>
+                <td th:text="${plane.time_position}">TimePosition</td>
+                <td> | </td>
+                <td th:text="${plane.last_contact}">last_contact</td>
+                <td> | </td>
+                <td th:text="${plane.longitude}">longitude</td>
+                <td> | </td>
+                <td th:text="${plane.latitude}">latitude</td>
+                <td> | </td>
+                <td th:text="${plane.on_ground}">on_ground</td>
+                <td> | </td>
+                <td th:text="${plane.velocity}">velocity</td>
+                <td> | </td>
+                <td th:text="${plane.true_track}">true_track</td>
+                <td> | </td>
+                <td th:text="${plane.vertical_rate}">vertical_rate</td>
+                <td> | </td>
+                <td th:text="${plane.altitude}">altitude</td>
+        </table>
+
+        
+    </body>
+</html>

@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import net.minidev.json.JSONObject;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,32 +25,35 @@ public class PlaneController {
     
     private static PlaneRepositoryImpl allplanes = new PlaneRepositoryImpl();
     
+    //@Scheduled(fixedRate = 1000)
     @RequestMapping(value = "/plane")
     public ModelAndView getBlog(ModelAndView mv) {
         mv.addObject("planes", plane.getPlanes());
         mv.setViewName("index");
+        System.out.println("PRINTING EHHEHE");
         return mv;
     }
     
     
-
-    @RequestMapping("/")
-    public String index() {
-        return "index.html";
-    }
-
+    //@Scheduled(fixedRate = 1000)
     @RequestMapping("/allplanes")
-    public String home() throws IOException {
+    public ModelAndView allPlanes(ModelAndView mv) throws IOException {
 
         //curl -X POST https://postman-echo.com/post --data foo1=bar1&foo2=bar2
         String url = "https://opensky-network.org/api/states/all";
         //String command = "curl -s 'https://opensky-network.org/api/states/all?icao24=3c6444&icao24=3e1bf9'";
-
-        return MyGETRequest(url);
+        MyGETRequest(url);
+        
+        
+        mv.addObject("planes", allplanes.getAllPlanes());
+        mv.setViewName("allPlanes");
+        
+        return mv;
 
     }
-
-    public static String MyGETRequest(String url) throws IOException {
+    
+    
+    public String MyGETRequest(String url) throws IOException {
         URL urlForGetRequest = new URL(url);
         String readLine = null;
         HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
@@ -67,16 +71,16 @@ public class PlaneController {
             
             String rawResponse = response.toString();
             // print result
-            System.out.println("JSON String Result " + rawResponse);
+            //System.out.println("JSON String Result " + rawResponse);
             //GetAndPost.POSTRequest(response.toString());
             
             // Process Raw String
             String[] planes = rawResponse.split("\\[\"");
             for(int i=1;i<planes.length;i++){
-                System.out.println(planes[i]);
+                //System.out.println(planes[i]);
                 String[] plane = planes[i].replace("\"", "").replace(" ", "").split(",");
                 for(int j=0;j<plane.length;j++){
-                    System.out.println(plane[j]);
+                    //System.out.println(plane[j]);
                     //Plane(String icao24, String callsign, String origin_country, int time_position, int last_contact, double longitude, double latitude, boolean on_ground, double velocity, double true_track, double vertical_rate, double altitude)
                 }
                 String icao24 = plane[0];
