@@ -56,12 +56,7 @@ public class PlaneController {
         
         
         System.out.println("CARREGUEI NO F5");
-        try{
-            System.out.println(allplanes.getPlane("ab1644").getLatitude());
-        }
-        catch(PlaneNotFound e){
-            System.out.println("Plane not found");
-        }
+
         mv.addObject("planes", allplanes.getAllPlanes());
         mv.setViewName("allPlanes");
         
@@ -93,6 +88,8 @@ public class PlaneController {
             //GetAndPost.POSTRequest(response.toString());
             
             // Process Raw String
+            System.out.println(rawResponse);
+            
             processPlanes(rawResponse);
             
             return rawResponse;
@@ -156,7 +153,7 @@ public class PlaneController {
         return allplanes;
     }
     
-    private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
+    private static final Logger log = LoggerFactory.getLogger(PlaneController.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     
