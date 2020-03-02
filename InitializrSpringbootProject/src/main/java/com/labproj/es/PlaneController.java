@@ -12,12 +12,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import net.minidev.json.JSONObject;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@EnableScheduling
 public class PlaneController {
 
     
@@ -40,7 +42,7 @@ public class PlaneController {
     public ModelAndView allPlanes(ModelAndView mv) throws IOException {
 
         //curl -X POST https://postman-echo.com/post --data foo1=bar1&foo2=bar2
-        String url = "https://opensky-network.org/api/states/all";
+        String url = "https://chiplo123:tareco123@opensky-network.org/api/states/all";
         //String command = "curl -s 'https://opensky-network.org/api/states/all?icao24=3c6444&icao24=3e1bf9'";
         MyGETRequest(url);
         
@@ -79,10 +81,7 @@ public class PlaneController {
             for(int i=1;i<planes.length;i++){
                 //System.out.println(planes[i]);
                 String[] plane = planes[i].replace("\"", "").replace(" ", "").split(",");
-                for(int j=0;j<plane.length;j++){
-                    //System.out.println(plane[j]);
-                    //Plane(String icao24, String callsign, String origin_country, int time_position, int last_contact, double longitude, double latitude, boolean on_ground, double velocity, double true_track, double vertical_rate, double altitude)
-                }
+
                 String icao24 = plane[0];
                 String callsign = plane[1];
                 String origin_country = plane[2];
@@ -103,7 +102,7 @@ public class PlaneController {
                     latitude = Double.parseDouble(plane[6]);
                 }
                 boolean on_ground = Boolean.parseBoolean(plane[8]);
-                double velocity = 999999;
+                double velocity = 0;
                 if(!plane[9].equals("null")){
                     velocity = Double.parseDouble(plane[9]);
                 }
@@ -111,11 +110,11 @@ public class PlaneController {
                 if(!plane[10].equals("null")){
                     true_track = Double.parseDouble(plane[10]);
                 }
-                double vertical_rate = 999999;
+                double vertical_rate = 0;
                 if(!plane[11].equals("null")){
                     vertical_rate = Double.parseDouble(plane[11]);
                 }
-                double altitude = 999999;
+                double altitude = 0;
                 if(!plane[13].equals("null")){
                     altitude = Double.parseDouble(plane[13]);
                 }
