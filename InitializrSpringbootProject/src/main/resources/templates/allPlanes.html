@@ -4,65 +4,140 @@
         <title>Home page</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+
+
+        <script>
+            $(document).ready(function() {
+
+                $('#table').DataTable({
+                    "columns": [{
+                            "width": "45%"
+                        },
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "initComplete": () => {
+                        $("#table").show();
+                    }
+                });
+            } );
+        </script>
     </head>
     <body>
+        <style>
+            
+            table {
+                
+                border-collapse: separate;
+                border-spacing: 0;
+                color: #4a4a4d;
+                font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+            th,
+            td {
+
+                padding: 10px 15px;
+                vertical-align: middle;
+            }
+            thead {
+                background: #395870;
+                color: #fff;
+            }
+            th {
+                font-weight: bold;
+            }
+            th:first-child {
+                text-align: left;
+            }
+            tbody tr:nth-child(even) {
+                background: #f0f0f2;
+            }
+            td {
+                border-bottom: 1px solid #cecfd5;
+                border-right: 1px solid #cecfd5;
+            }
+            td:first-child {
+                border-left: 1px solid #cecfd5;
+            }
+            .book-title {
+                color: #395870;
+                display: block;
+            }
+            .item-stock,
+            .item-qty {
+                text-align: center;
+            }
+            .item-price {
+                text-align: right;
+            }
+            .item-multiple {
+                display: block;
+            }
+            
+            #table{
+                display:none;
+            }
+
+        </style>
         <p>
             <span th:text="'Today is: ' + ${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}" th:remove="tag"></span>
         </p>
-        
-        <table>
-            <tr>
-                <th>icao24</th>
-                <td> | </td>
-                <th>callsign</th>
-                <td> | </td>
-                <th>origin_country</th>
-                <td> | </td>
-                <th>time_position</th>
-                <td> | </td>
-                <th>last_contact</th>
-                <td> | </td>
-                <th>longitude</th>
-                <td> | </td>
-                <th>latitude</th>
-                <td> | </td>
-                <th>on_ground</th>
-                <td> | </td>
-                <th>velocity</th>
-                <td> | </td>
-                <th>true_track</th>
-                <td> | </td>
-                <th>vertical_rate</th>
-                <td> | </td>
-                <th>altitude</th>
-            </tr>
-   <!--         <tr th:each="plane : ${planes}">  -->
-                <tr th:each="plane : ${planes}">
-                <td th:text="${plane.icao24}">Icao24</td>
-                <td> | </td>
-                <td th:text="${plane.callsign}">Call_Sign</td>
-                <td> | </td>
-                <td th:text="${plane.origin_country}">origin_country</td>
-                <td> | </td>
-                <td th:text="${plane.time_position}">TimePosition</td>
-                <td> | </td>
-                <td th:text="${plane.last_contact}">last_contact</td>
-                <td> | </td>
-                <td th:text="${plane.longitude}">longitude</td>
-                <td> | </td>
-                <td th:text="${plane.latitude}">latitude</td>
-                <td> | </td>
-                <td th:text="${plane.on_ground}">on_ground</td>
-                <td> | </td>
-                <td th:text="${plane.velocity}">velocity</td>
-                <td> | </td>
-                <td th:text="${plane.true_track}">true_track</td>
-                <td> | </td>
-                <td th:text="${plane.vertical_rate}">vertical_rate</td>
-                <td> | </td>
-                <td th:text="${plane.altitude}">altitude</td>
+
+
+
+        <table id="table">
+            <thead> 
+                <tr>
+                    <th scope="col">icao24</th>
+                    <th scope="col">callsign</th>
+                    <th scope="col">origin_country</th>
+                    <th scope="col">time_position</th>
+                    <th scope="col">last_contact</th>
+                    <th scope="col">longitude</th>
+                    <th scope="col">latitude</th>
+                    <th scope="col">on_ground</th>
+                    <th scope="col">velocity</th>
+                    <th scope="col">true_track</th>
+                    <th scope="col">vertical_rate</th>
+                    <th scope="col">altitude</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="plane : ${planes}" >
+                    <!--th:each="plane : ${planes}" style="display: block; break-inside: avoid-page;">-->
+                    <td th:text="${plane.icao24}">Icao24</td>
+                    <td th:text="${plane.callsign}">Call_Sign</td>
+                    <td th:text="${plane.origin_country}">origin_country</td>
+                    <td th:text="${plane.time_position}">TimePosition</td>
+                    <td th:text="${plane.last_contact}">last_contact</td>
+                    <td th:text="${plane.longitude}">longitude</td>
+                    <td th:text="${plane.latitude}">latitude</td>
+                    <td th:text="${plane.on_ground}">on_ground</td>
+                    <td th:text="${plane.velocity}">velocity</td>
+                    <td th:text="${plane.true_track}">true_track</td>
+                    <td th:text="${plane.vertical_rate}">vertical_rate</td>
+                    <td th:text="${plane.altitude}">altitude</td>
+                </tr>
+            </tbody>
         </table>
 
-        
+
+
+
     </body>
+
 </html>
