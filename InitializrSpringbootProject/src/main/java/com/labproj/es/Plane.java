@@ -7,6 +7,8 @@ package com.labproj.es;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -14,7 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author guilherme
  */
 @XmlRootElement
+@Entity
+@Table(name="tix_event")
 public class Plane {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private String icao24;
     private String callsign;
     private String origin_country;
