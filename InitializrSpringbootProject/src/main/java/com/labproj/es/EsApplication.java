@@ -10,7 +10,6 @@ public class EsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EsApplication.class, args);
-        //SpringApplication.run(SchedulingTasksApplication.class);
     }
 
 }

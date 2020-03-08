@@ -16,6 +16,7 @@ import java.util.Date;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +25,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @EnableScheduling
+@RequestMapping(path = "/plane")
 public class PlaneController {
 
-    PlaneRepositoryImpl allplanes;
+    @Autowired
+    private PlaneRepositoryImpl allplanes;
 
     public PlaneController() {
 
@@ -34,7 +37,6 @@ public class PlaneController {
     }
 
     //@Scheduled(fixedRate = 1000)
-    @RequestMapping(value = "/plane")
     public ModelAndView getBlog(ModelAndView mv) {
         //mv.addObject("planes", plane.getPlanes());
         mv.setViewName("index");

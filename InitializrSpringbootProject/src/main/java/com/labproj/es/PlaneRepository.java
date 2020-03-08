@@ -11,8 +11,9 @@ package com.labproj.es;
  */
 
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PlaneRepository {
+public interface PlaneRepository extends JpaRepository<Plane, String>{
 
     public List<Plane> getAllPlanes();
 

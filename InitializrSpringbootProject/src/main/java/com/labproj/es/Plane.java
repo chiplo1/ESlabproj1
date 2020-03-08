@@ -17,11 +17,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @Entity
-@Table(name="tix_event")
 public class Plane {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private String icao24;
     private String callsign;
     private String origin_country;
