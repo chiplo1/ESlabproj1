@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @Entity
+@Table(name = "plane")
 public class Plane {
     @Id
     private String icao24;

@@ -5,7 +5,6 @@
  */
 package com.labproj.es;
 
-import com.labproj.exceptions.PlaneNotFound;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,19 +12,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import net.minidev.json.JSONObject;
+import javassist.tools.web.BadHttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @EnableScheduling
-@RequestMapping(path = "/plane")
+@RequestMapping(path = "/planes")
 public class PlaneController {
 
     @Autowired
@@ -168,4 +174,35 @@ public class PlaneController {
         MyGETRequest(url);
         
     }
+    
+    @GetMapping
+    public Iterable<Plane> findAll() {
+        return allplanes.findAll();
+    }
+
+    @GetMapping(path = "/{icao24}")
+    public Plane find(@PathVariable("icao24") String icao24) {
+        return allplanes.getPlane(icao24);
+    }
+
+    @PostMapping(consumes = "application/json")
+    public Plane create(@RequestBody Plane plane) {
+        return allplanes.addPlane(plane);
+    }
+
+    @DeleteMapping(path = "/{icao24}")
+    public void delete(@PathVariable("icao24") String icao24) {
+        allplanes.deletePlane(icao24);
+    }
+
+    @PutMapping(path = "/{icao24}")
+    public Plane update(@PathVariable("icao24") String icao24, @RequestBody Plane plane) throws BadHttpRequest {
+        if (allplanes.exists(icao24)) {
+            plane.setIcao24(icao24);
+            return plane;
+        } else {
+            throw new BadHttpRequest();
+        }
+    }
+    
 }

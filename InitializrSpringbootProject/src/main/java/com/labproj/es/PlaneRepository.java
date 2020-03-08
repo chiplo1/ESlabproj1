@@ -12,7 +12,9 @@ package com.labproj.es;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+@RepositoryRestResource(path = "/planes")
 public interface PlaneRepository extends JpaRepository<Plane, String>{
 
     public List<Plane> getAllPlanes();
@@ -23,5 +25,7 @@ public interface PlaneRepository extends JpaRepository<Plane, String>{
 
     public void deletePlane(String icao24);
 
-    public void addPlane(Plane plane);
+    public Plane addPlane(Plane plane);
+    
+    public boolean exists(String icao24);
 }
