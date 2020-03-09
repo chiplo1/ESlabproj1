@@ -31,7 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @EnableScheduling
-public abstract class PlaneController {
+public class PlaneController {
 
     @Autowired
     private PlaneRepositoryImpl allplanes;
