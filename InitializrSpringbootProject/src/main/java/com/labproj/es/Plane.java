@@ -15,11 +15,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author guilherme
  */
-@XmlRootElement
+//@XmlRootElement
 @Entity
-@Table(name = "plane")
+//@Table(name = "plane")
 public class Plane {
-    
     
     @Id
     private String icao24;
@@ -163,7 +162,7 @@ public class Plane {
     
     
     
-    public List<Plane> getPlanes(){
+    /*public List<Plane> getPlanes(){
         List<Plane> planes = new ArrayList<>();
         
         planes.add(new Plane("alberto","caeiro"));
@@ -171,6 +170,6 @@ public class Plane {
         planes.add(new Plane("fernando2","humano"));
         
         return planes;
-    }
+    }P*/
     
 }

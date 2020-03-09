@@ -12,11 +12,12 @@ package com.labproj.es;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(path = "/plane")
+@RepositoryRestResource(path = "/planes")
 public interface PlaneRepository extends JpaRepository<Plane, String>{
-
+/*
     public List<Plane> getAllPlanes();
 
     public Plane getPlane(String icao24);
@@ -28,4 +29,7 @@ public interface PlaneRepository extends JpaRepository<Plane, String>{
     public Plane addPlane(Plane plane);
     
     public boolean exists(String icao24);
+    */
+    //@Query("select u from #{#entityName} u where u.lastname = ?1")
+    //List<Plane> findByIcao24(String icao24);
 }

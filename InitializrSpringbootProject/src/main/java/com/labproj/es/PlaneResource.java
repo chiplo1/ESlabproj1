@@ -30,8 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author guilherme
  */
-//@Path("/plane")
-//@Produces("application/json")
+@Path("/plane")
+@Produces("application/json")
 public class PlaneResource { //NOT BEING USED
     @Autowired
     private PlaneRepository planeRepository;
@@ -66,7 +66,7 @@ public class PlaneResource { //NOT BEING USED
         Connection db = getConnection();
         
         try {
-            PreparedStatement st = db.prepareStatement("SELECT id, title, created from tix_event");
+            PreparedStatement st = db.prepareStatement("SELECT * from plane");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Plane e = getFromResultSet(rs);

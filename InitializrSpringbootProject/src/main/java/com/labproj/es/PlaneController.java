@@ -13,6 +13,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javassist.tools.web.BadHttpRequest;
+import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,21 +32,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @EnableScheduling
+
 public class PlaneController {
 
     @Autowired
-    private PlaneRepositoryImpl allplanes;
+    private PlaneRepository allplanes;
 
-    public PlaneController() {
-
-        allplanes = new PlaneRepositoryImpl();
-    }
 
     //@Scheduled(fixedRate = 1000)
     public ModelAndView getBlog(ModelAndView mv) {
         //mv.addObject("planes", plane.getPlanes());
         mv.setViewName("index");
         System.out.println("PRINTING EHHEHE");
+        
+        
         return mv;
     }
 
@@ -61,7 +61,7 @@ public class PlaneController {
         
         System.out.println("CARREGUEI NO F5");
 
-        mv.addObject("planes", allplanes.getAllPlanes());
+        //mv.addObject("planes", allplanes.getAllPlanes());
         mv.setViewName("allPlanes");
         
         //MyGETRequest(url);
@@ -103,13 +103,10 @@ public class PlaneController {
         return "GET NOT WORKED";
     }
 
-    public void setAllplanes(PlaneRepositoryImpl allplanes) {
-        this.allplanes = allplanes;
-    }
-
-    public PlaneRepositoryImpl processPlanes(String rawResponse) {
+    
+    public String processPlanes(String rawResponse) {
         
-        allplanes.deleteAllPlanes(); 
+        //allplanes.deleteAllPlanes(); 
         
         String[] planes = rawResponse.split("\\[\"");
         for (int i = 1; i < planes.length; i++) {
@@ -152,9 +149,11 @@ public class PlaneController {
             if (!plane[13].equals("null")) {
                 altitude = Double.parseDouble(plane[13]);
             }
-            allplanes.addPlane(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
+            allplanes.save(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
+      
+            //allplanes.addPlane(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
         }
-        return allplanes;
+        return "Saved allPlanes";
     }
     
     private static final Logger log = LoggerFactory.getLogger(PlaneController.class);
@@ -170,10 +169,10 @@ public class PlaneController {
         MyGETRequest(url);
         
     }
-    
+    /*
     @GetMapping("/findAll")
     public Iterable<Plane> findAll() {
-        return (Iterable<Plane>) allplanes.findAll();
+        return (Iterable<Plane>) allplanes.getAllPlanes();
     }
 
     @GetMapping(path = "/find/{icao24}")
@@ -199,6 +198,6 @@ public class PlaneController {
         } else {
             throw new BadHttpRequest();
         }
-    }
+    }*/
     
 }
