@@ -5,6 +5,15 @@
  */
 package com.labproj.es;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,11 +30,55 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author guilherme
  */
-@Path("/planes")
-public class PlaneResource {
+//@Path("/plane")
+//@Produces("application/json")
+public class PlaneResource { //NOT BEING USED
     @Autowired
     private PlaneRepository planeRepository;
- 
+    
+    
+    protected Connection getConnection() throws SQLException, NamingException {
+        InitialContext ic = new InitialContext();
+        DataSource ds = (DataSource) ic.lookup("jdbc/mysql");
+        return ds.getConnection();
+    }
+    
+    public Plane getFromResultSet(ResultSet rs) throws SQLException {
+        Plane plane = new Plane();
+        plane.setIcao24(rs.getString("icao24"));
+        plane.setCallsign(rs.getString("callsign"));
+        plane.setOrigin_country(rs.getString("origin_country"));
+        plane.setTime_position(rs.getInt("time_position"));
+        plane.setLast_contact(rs.getInt("last_contact"));
+        plane.setLongitude(rs.getDouble("longitude"));
+        plane.setLatitude(rs.getDouble("latitude"));
+        plane.setOn_ground(rs.getBoolean("on_ground"));
+        plane.setVelocity(rs.getDouble("velocity"));
+        plane.setTrue_track(rs.getDouble("true_track"));
+        plane.setVertical_rate(rs.getDouble("vertical_rate"));
+        plane.setAltitude(rs.getDouble("altitude"));
+        return plane;
+    }
+    
+    @GET
+    public List getList() throws SQLException, NamingException {
+        List planes = new ArrayList<>();
+        Connection db = getConnection();
+        
+        try {
+            PreparedStatement st = db.prepareStatement("SELECT id, title, created from tix_event");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Plane e = getFromResultSet(rs);
+                planes.add(e);
+            }
+            return planes;
+        } finally {
+            db.close();
+        }
+    }
+    
+    
     @GET
     @Path("/{id}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

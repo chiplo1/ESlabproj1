@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "plane")
 public class Plane {
+    
+    
     @Id
     private String icao24;
     private String callsign;
@@ -55,6 +57,10 @@ public class Plane {
     
     public Plane(String icao24) {
         this.icao24 = icao24;
+    }
+
+    public Plane() {
+        
     }
     
     public String getIcao24() {

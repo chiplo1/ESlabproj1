@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PlaneRepositoryImpl implements PlaneRepository {
-    private List<Plane> planeList;
+    private final List<Plane> planeList;
 
     public PlaneRepositoryImpl() {
         planeList = new ArrayList<Plane>();
@@ -32,9 +32,10 @@ public class PlaneRepositoryImpl implements PlaneRepository {
         return planeList;
     }
 
+    @Override
     public Plane getPlane(String icao24) {
         for (Plane pl : planeList) {
-            if (pl.getIcao24() == icao24) {
+            if (pl.getIcao24().equals(icao24)) {
                 return pl;
             }
         }
@@ -43,7 +44,7 @@ public class PlaneRepositoryImpl implements PlaneRepository {
 
     public void updatePlane(Plane plane, String icao24) {
         for (Plane pl : planeList) {
-            if (pl.getIcao24() == icao24) {
+            if (pl.getIcao24().equals(icao24)) {
                 pl.setIcao24(plane.getIcao24());
                 pl.setCallsign(plane.getCallsign());
                 return;
@@ -54,7 +55,7 @@ public class PlaneRepositoryImpl implements PlaneRepository {
 
     public void deletePlane(String icao24) {
         for (Plane pl : planeList) {
-            if (pl.getIcao24() == icao24) {
+            if (pl.getIcao24().equals(icao24)) {
                 planeList.remove(pl);
                 return;
             }
@@ -64,7 +65,7 @@ public class PlaneRepositoryImpl implements PlaneRepository {
 
     public Plane addPlane(Plane plane) {
         for (Plane pl : planeList) {
-            if (pl.getIcao24() == plane.getIcao24()) {
+            if (pl.getIcao24().equals(plane.getIcao24())) {
                 throw new PlaneAlreadyExists();
             }
         }
@@ -78,16 +79,16 @@ public class PlaneRepositoryImpl implements PlaneRepository {
 
     public boolean exists(String icao24) {
         for (Plane pl : planeList) {
-            if (pl.getIcao24() == icao24) {
+            if (pl.getIcao24().equals(icao24)) {
                 return true;
             }
         }
         return false;
     }
 
-    @Override
+    
     public List<Plane> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return planeList;        
     }
 
     @Override
@@ -97,26 +98,11 @@ public class PlaneRepositoryImpl implements PlaneRepository {
 
     @Override
     public List<Plane> findAllById(Iterable<String> itrbl) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return planeList;
     }
 
     @Override
     public <S extends Plane> List<S> saveAll(Iterable<S> itrbl) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void flush() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <S extends Plane> S saveAndFlush(S s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteInBatch(Iterable<Plane> itrbl) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -202,6 +188,21 @@ public class PlaneRepositoryImpl implements PlaneRepository {
 
     @Override
     public <S extends Plane> boolean exists(Example<S> exmpl) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void flush() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <S extends Plane> S saveAndFlush(S s) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteInBatch(Iterable<Plane> itrbl) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

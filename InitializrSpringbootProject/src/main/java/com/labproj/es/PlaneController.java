@@ -31,8 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @EnableScheduling
-@RequestMapping(path = "/planes")
-public class PlaneController {
+public abstract class PlaneController {
 
     @Autowired
     private PlaneRepositoryImpl allplanes;
@@ -50,9 +49,6 @@ public class PlaneController {
         return mv;
     }
 
-    public PlaneRepositoryImpl getAllplanes() {
-        return allplanes;
-    }
 
     //@Scheduled(fixedRate = 1000)
     @RequestMapping("/allplanes")
@@ -175,12 +171,12 @@ public class PlaneController {
         
     }
     
-    @GetMapping
+    @GetMapping("/findAll")
     public Iterable<Plane> findAll() {
-        return allplanes.findAll();
+        return (Iterable<Plane>) allplanes.findAll();
     }
 
-    @GetMapping(path = "/{icao24}")
+    @GetMapping(path = "/find/{icao24}")
     public Plane find(@PathVariable("icao24") String icao24) {
         return allplanes.getPlane(icao24);
     }
@@ -190,12 +186,12 @@ public class PlaneController {
         return allplanes.addPlane(plane);
     }
 
-    @DeleteMapping(path = "/{icao24}")
+    @DeleteMapping(path = "/delete/{icao24}")
     public void delete(@PathVariable("icao24") String icao24) {
         allplanes.deletePlane(icao24);
     }
 
-    @PutMapping(path = "/{icao24}")
+    @PutMapping(path = "/update/{icao24}")
     public Plane update(@PathVariable("icao24") String icao24, @RequestBody Plane plane) throws BadHttpRequest {
         if (allplanes.exists(icao24)) {
             plane.setIcao24(icao24);
