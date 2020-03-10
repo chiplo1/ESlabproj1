@@ -61,7 +61,7 @@ public class PlaneController {
         
         System.out.println("CARREGUEI NO F5");
 
-        //mv.addObject("planes", allplanes.getAllPlanes());
+        mv.addObject("planes", allplanes.findAll());
         mv.setViewName("allPlanes");
         
         //MyGETRequest(url);
@@ -150,7 +150,7 @@ public class PlaneController {
                 altitude = Double.parseDouble(plane[13]);
             }
             allplanes.save(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
-      
+            
             //allplanes.addPlane(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
         }
         return "Saved allPlanes";
