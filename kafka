@@ -1,0 +1,12 @@
+
+zookeeper deploy:
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+Kafka server deplay:
+bin/kafka-server-start.sh config/server.properties
+
+Producer:
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+
+Consumer:
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
