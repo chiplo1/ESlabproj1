@@ -8,6 +8,7 @@ package com.labproj.es;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -35,6 +36,7 @@ public class Plane {
     private double altitude;
 
     public Plane(String icao24, String callsign, String origin_country, int time_position, int last_contact, double longitude, double latitude, boolean on_ground, double velocity, double true_track, double vertical_rate, double altitude) {
+        
         this.icao24 = icao24;
         this.callsign = callsign;
         this.origin_country = origin_country;
