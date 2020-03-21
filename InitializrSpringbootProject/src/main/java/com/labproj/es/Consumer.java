@@ -29,11 +29,11 @@ public class Consumer {
     private CountDownLatch planeLatch = new CountDownLatch(1);
 
         
-    /*@KafkaListener(topics = "users", groupId = "group_id")
+    @KafkaListener(topics = "${message.topic.name}", groupId = "plane")
     public void consume(String message) throws IOException {
         logger.info(String.format("#### -> Consumed message -> %s", message));
         System.out.println(String.format("#### -> Consumed message -> %s", message));
-    }*/
+    }
 
     @KafkaListener(topics = "${plane.topic.name}", containerFactory = "planeKafkaListenerContainerFactory")
     public void planeListener(Plane plane) {
