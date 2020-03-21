@@ -165,7 +165,7 @@ public class PlaneController {
 
         MyGETRequest(url);
 
-        //producer.sendMessage("Hello Wworldd");
+        //producer.sendPlaneMessage(allplanes.getOne("a808c4"));
     }
 
     @Bean

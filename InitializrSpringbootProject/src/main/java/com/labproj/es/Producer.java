@@ -40,7 +40,7 @@ public class Producer {
     public void sendMessage(String message) {
 
         ListenableFuture<SendResult<String, String>> future
-                = kafkaTemplate.send("baeldung", message);
+                = kafkaTemplate.send("plane", message);
 
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
