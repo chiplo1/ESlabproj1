@@ -7,6 +7,7 @@ package com.labproj.es;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import org.jvnet.hk2.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +23,22 @@ import org.springframework.messaging.handler.annotation.Header;
 //@Component
 public class Consumer {
 
-
     private final Logger logger = LoggerFactory.getLogger(Producer.class);
 
-    
-    @KafkaListener(topics = "users", groupId = "group_id")
+
+    private CountDownLatch planeLatch = new CountDownLatch(1);
+
+        
+    /*@KafkaListener(topics = "users", groupId = "group_id")
     public void consume(String message) throws IOException {
         logger.info(String.format("#### -> Consumed message -> %s", message));
         System.out.println(String.format("#### -> Consumed message -> %s", message));
+    }*/
+
+    @KafkaListener(topics = "${plane.topic.name}", containerFactory = "planeKafkaListenerContainerFactory")
+    public void planeListener(Plane plane) {
+        System.out.println("Recieved plane message: " + plane);
+        this.planeLatch.countDown();
     }
-    
 
 }

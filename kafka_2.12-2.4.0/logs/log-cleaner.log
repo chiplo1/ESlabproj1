@@ -1,0 +1,8 @@
+[2020-03-20 23:32:03,666] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2020-03-20 23:32:03,729] INFO [kafka-log-cleaner-thread-0]: Starting (kafka.log.LogCleaner)
+[2020-03-20 23:33:18,045] INFO Shutting down the log cleaner. (kafka.log.LogCleaner)
+[2020-03-20 23:33:18,046] INFO [kafka-log-cleaner-thread-0]: Shutting down (kafka.log.LogCleaner)
+[2020-03-20 23:33:18,046] INFO [kafka-log-cleaner-thread-0]: Stopped (kafka.log.LogCleaner)
+[2020-03-20 23:33:18,046] INFO [kafka-log-cleaner-thread-0]: Shutdown completed (kafka.log.LogCleaner)
+[2020-03-20 23:34:24,365] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2020-03-20 23:34:24,458] INFO [kafka-log-cleaner-thread-0]: Starting (kafka.log.LogCleaner)

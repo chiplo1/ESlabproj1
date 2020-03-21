@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.labproj.es;
 
 import java.io.BufferedReader;
@@ -12,14 +7,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,20 +32,24 @@ public class PlaneController {
 
     @Autowired
     private PlaneRepository allplanes;
-    
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Autowired
     private Producer producer;
 
+    @Autowired
+    private Consumer consumer;
 
     //@Scheduled(fixedRate = 1000)
     public ModelAndView getBlog(ModelAndView mv) {
         //mv.addObject("planes", plane.getPlanes());
         mv.setViewName("index");
         System.out.println("PRINTING EHHEHE");
-        
-        
+
         return mv;
     }
-
 
     //@Scheduled(fixedRate = 1000)
     @RequestMapping("/allplanes")
@@ -51,15 +58,13 @@ public class PlaneController {
         //curl -X POST https://postman-echo.com/post --data foo1=bar1&foo2=bar2
         String url = "https://chiplo123:tareco123@opensky-network.org/api/states/all";
         //String command = "curl -s 'https://opensky-network.org/api/states/all?icao24=3c6444&icao24=3e1bf9'";
-        
-        
+
         System.out.println("CARREGUEI NO F5");
 
         mv.addObject("planes", allplanes.findAll());
         mv.setViewName("allPlanes");
-        
+
         //MyGETRequest(url);
-        
         return mv;
 
     }
@@ -84,12 +89,12 @@ public class PlaneController {
             // print result
             //System.out.println("JSON String Result " + rawResponse);
             //GetAndPost.POSTRequest(response.toString());
-            
+
             // Process Raw String
             System.out.println(rawResponse);
-            
+
             processPlanes(rawResponse);
-            
+
             return rawResponse;
         } else {
             System.out.println("GET NOT WORKED");
@@ -97,11 +102,9 @@ public class PlaneController {
         return "GET NOT WORKED";
     }
 
-    
     public String processPlanes(String rawResponse) {
-        
+
         //allplanes.deleteAllPlanes(); 
-        
         String[] planes = rawResponse.split("\\[\"");
         for (int i = 1; i < planes.length; i++) {
             //System.out.println(planes[i]);
@@ -144,31 +147,38 @@ public class PlaneController {
                 altitude = Double.parseDouble(plane[13]);
             }
             allplanes.save(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
-            
+
             //allplanes.addPlane(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
         }
         return "Saved allPlanes";
     }
-    
+
     private static final Logger log = LoggerFactory.getLogger(PlaneController.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    
+
     @Scheduled(fixedDelay = 8000) //5 em 5 segundos
     public void reportCurrentTime() throws IOException {
 
-    	log.info("The time is now {}", dateFormat.format(new Date()));
+        log.info("The time is now {}", dateFormat.format(new Date()));
         String url = "https://chiplo123:tareco123@opensky-network.org/api/states/all";
-        
+
         MyGETRequest(url);
-        
+
+        //producer.sendMessage("Hello Wworldd");
     }
-    
-    @PostMapping(value = "/publish")
-    public void sendMessageToKafkaTopic(@RequestParam("message") String message) {
-        producer.sendMessage(message);
+
+    @Bean
+    public Producer producer() {
+        return new Producer();
     }
-    
+
+    @Bean
+    public Consumer consumer() {
+        return new Consumer();
+    }
+
+    //@PostMapping(value = "/publish")
     /*
     @GetMapping("/findAll")
     public Iterable<Plane> findAll() {
@@ -199,5 +209,4 @@ public class PlaneController {
             throw new BadHttpRequest();
         }
     }*/
-    
 }
