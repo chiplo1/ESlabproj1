@@ -1,0 +1,13 @@
+docker run --name demo-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=demo -e MYSQL_USER=demo_user -e MYSQL_PASSWORD=demo_pass -p 3307:3306 -d mysql:5.6
+
+zookeeper deploy:
+kafka_2.12-2.4.0/bin/zookeeper-server-start.sh kafka_2.12-2.4.0/config/zookeeper.properties
+
+Kafka server deplay:
+kafka_2.12-2.4.0/bin/kafka-server-start.sh kafka_2.12-2.4.0/config/server.properties
+
+Producer:
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+
+Consumer:
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
