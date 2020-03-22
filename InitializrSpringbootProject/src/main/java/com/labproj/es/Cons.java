@@ -45,31 +45,6 @@ public class Cons {
         System.out.println(String.format("#### -> Consumed message -> %s", mess));
         
         
-        /*topics.add("baeldung");
-        
-        Properties props = new Properties();
-        props.put("group.id", "plane");
-        // log4j.logger.org.apache.kafka = WARN;
-        consumer = new KafkaConsumer<String, String>(props);
-        
-        
-        consumer.subscribe(topics);
-
-        try {
-            while (true) {
-                ConsumerRecords<String, String> records = consumer.poll(10);
-                for (ConsumerRecord<String, String> record : records) {
-
-                    System.out.println(String.format("#### -> Consumed LOGGEEEEEEEEEEEEEEEEEEEEEER -> "));
-                    System.out.print(record.value());
-                }
-            }
-        } catch (Exception e) {
-            // System.out.println(e.getMessage());
-        } finally {
-            consumer.close();
-        }*/
-
     }
 
     /*@KafkaListener(topics = "${message.topic.name}", groupId = "plane")

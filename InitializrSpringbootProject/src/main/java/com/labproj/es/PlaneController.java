@@ -188,9 +188,8 @@ public class PlaneController {
         String url = "https://chiplo123:tareco123@opensky-network.org/api/states/all";
 
         MyGETRequest(url);
-        System.out.println(allplanes.findAll().get(0));//getOne("aa8c39").getIcao24() + ", "+ allplanes.getOne("aa8c39").getCallsign());
+        //System.out.println(allplanes.findAll().get(0));//getOne("aa8c39").getIcao24() + ", "+ allplanes.getOne("aa8c39").getCallsign());
         producer.sendPlaneMessage(allplanes.findAll().get(0));
-        
     }
 
     @Bean
