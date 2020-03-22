@@ -5,6 +5,10 @@
  */
 package com.labproj.es;
 
+import java.util.Properties;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.jvnet.hk2.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +24,12 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
  * @author joao
  */
 @Service
-public class Producer {
+public class Prod {
 
     //private static final Logger logger = LoggerFactory.getLogger(Producer.class);
     //private static final String TOPIC = "planes";
+    
+    
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -36,6 +42,14 @@ public class Producer {
 
     @Value(value = "${plane.topic.name}")
     private String planeTopicName;
+    
+    
+    
+    private Producer<String, String> producer;
+    
+    private Properties props = new Properties();
+    
+   
 
     public void sendMessage(String message) {
 
@@ -60,6 +74,25 @@ public class Producer {
 
     public void sendPlaneMessage(Plane plane) {
         planeKafkaTemplate.send(planeTopicName, plane);
+    }
+    
+    public void send(String topicName, String data) {
+        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send("baeldung", data);
+        
+        future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+
+            @Override
+            public void onSuccess(SendResult<String, String> result) {
+                System.out.println("Sent message=[" + data
+                        + "] with offset=[" + result.getRecordMetadata().offset() + "]");
+            }
+
+            @Override
+            public void onFailure(Throwable ex) {
+                System.out.println("Unable to send message=["
+                        + data + "] due to : " + ex.getMessage());
+            }
+        });
     }
     /*
     public void sendMessage(String message) {

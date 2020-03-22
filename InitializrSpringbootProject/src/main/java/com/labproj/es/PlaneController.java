@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,10 +39,10 @@ public class PlaneController {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
-    private Producer producer;
+    private Prod producer;
 
     @Autowired
-    private Consumer consumer;
+    private Cons consumer;
 
     //@Scheduled(fixedRate = 1000)
     public ModelAndView getBlog(ModelAndView mv) {
@@ -54,14 +56,22 @@ public class PlaneController {
     //@Scheduled(fixedRate = 1000)
     @RequestMapping("/allplanes")
     public ModelAndView allPlanes(ModelAndView mv) throws IOException {
-
+        
         //curl -X POST https://postman-echo.com/post --data foo1=bar1&foo2=bar2
         String url = "https://chiplo123:tareco123@opensky-network.org/api/states/all";
         //String command = "curl -s 'https://opensky-network.org/api/states/all?icao24=3c6444&icao24=3e1bf9'";
-
+        
+        logger.info("Page allplanes reloaded.");
+        producer.send(loggerTopicName, new Timestamp(new Date().getTime()) + " PlaneController: Page allplanes reloaded.");
+            
+        
         System.out.println("CARREGUEI NO F5");
 
         mv.addObject("planes", allplanes.findAll());
+        
+        logger.info("Planes' data retrieved from database.");
+        producer.send(loggerTopicName, new Timestamp(new Date().getTime()) + " PlaneController: Planes' data retrieved from database.");
+            
         mv.setViewName("allPlanes");
 
         //MyGETRequest(url);
@@ -94,11 +104,19 @@ public class PlaneController {
             System.out.println(rawResponse);
 
             processPlanes(rawResponse);
-
+            logger.info("Request data from opensky-network API granted.");
+            producer.send(loggerTopicName, new Timestamp(new Date().getTime()) + " PlaneController: Request data from opensky-network API granted.");
+       
             return rawResponse;
         } else {
             System.out.println("GET NOT WORKED");
+            logger.info("Request data from opensky-network API not granted.");
+            producer.send(loggerTopicName, new Timestamp(new Date().getTime()) + " PlaneController: Request data from opensky-network API not granted.");
+            
         }
+        logger.info("Request data from opensky-network API not granted.");
+        producer.send(loggerTopicName, new Timestamp(new Date().getTime()) + " PlaneController: Request data from opensky-network API not granted.");
+        
         return "GET NOT WORKED";
     }
 
@@ -150,33 +168,39 @@ public class PlaneController {
 
             //allplanes.addPlane(new Plane(icao24, callsign, origin_country, time_position, last_contact, longitude, latitude, on_ground, velocity, true_track, vertical_rate, altitude));
         }
+        logger.info("Planes' data saved in database.");
+        producer.send(loggerTopicName, new Timestamp(new Date().getTime()) + " PlaneController: Planes' data saved in database.");
+            
         return "Saved allPlanes";
     }
 
-    private static final Logger log = LoggerFactory.getLogger(PlaneController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PlaneController.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
+    @Value(value = "${message.topic.name}")
+    private String loggerTopicName;
+    
     @Scheduled(fixedDelay = 8000) //5 em 5 segundos
     public void reportCurrentTime() throws IOException {
 
-        log.info("The time is now {}", dateFormat.format(new Date()));
+        //logger.info("The time is now {}", dateFormat.format(new Date()));
         String url = "https://chiplo123:tareco123@opensky-network.org/api/states/all";
 
         MyGETRequest(url);
         System.out.println(allplanes.findAll().get(0));//getOne("aa8c39").getIcao24() + ", "+ allplanes.getOne("aa8c39").getCallsign());
         producer.sendPlaneMessage(allplanes.findAll().get(0));
-        producer.sendMessage("peidolaas");
+        
     }
 
     @Bean
-    public Producer producer() {
-        return new Producer();
+    public Prod producer() {
+        return new Prod();
     }
 
     @Bean
-    public Consumer consumer() {
-        return new Consumer();
+    public Cons consumer() {
+        return new Cons();
     }
 
     //@PostMapping(value = "/publish")
