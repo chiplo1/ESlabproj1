@@ -5,7 +5,17 @@ docker run --name demo-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=d
 #zookeeper deploy:
 kafka_2.12-2.4.0/bin/zookeeper-server-start.sh kafka_2.12-2.4.0/config/zookeeper.properties
 
-#Kafka server deplay:
+#Kafka server deploy:
 kafka_2.12-2.4.0/bin/kafka-server-start.sh kafka_2.12-2.4.0/config/server.properties
 
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic plane
+
+compile and execute project 'InitializrSpringbootProject' with main 'EsApplication'
+
+localhost:8080/allplanes
+
+Group-ID:  L25
+
+Members:
+	Guilherme Henriques nº80100
+	João Coelho         nº80335

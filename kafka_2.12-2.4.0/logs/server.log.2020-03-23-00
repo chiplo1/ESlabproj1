@@ -1,0 +1,3 @@
+[2020-03-23 00:33:41,075] WARN Unable to read additional data from client sessionid 0x10001ac1e850000, likely client has closed socket (org.apache.zookeeper.server.NIOServerCnxn)
+[2020-03-23 00:33:41,319] INFO Expiring session 0x10001ac1e850000, timeout of 6000ms exceeded (org.apache.zookeeper.server.ZooKeeperServer)
+[2020-03-23 00:33:42,481] INFO Invalid session 0x10001ac1e850000 for client /127.0.0.1:43166, probably expired (org.apache.zookeeper.server.ZooKeeperServer)
